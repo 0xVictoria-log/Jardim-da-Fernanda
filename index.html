@@ -438,6 +438,52 @@
             <button onclick="showHelp()" style="background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);">
                 ❓ Como Jogar
             </button>
+            <button onclick="toggleDevPanel()" style="background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%); font-size: 0.9em;">
+                🔧 Modo DEV
+            </button>
+        </div>
+
+        <!-- Painel de Desenvolvedor -->
+        <div id="dev-panel" style="display: none; margin-top: 20px; padding: 20px; background: rgba(255,255,255,0.95); border-radius: 25px; box-shadow: 0 8px 20px rgba(0,0,0,0.2);">
+            <h3 style="color: #ff6b6b; margin-bottom: 15px;">🔧 PAINEL DE DESENVOLVEDOR</h3>
+            
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
+                <button onclick="devAddCoins()" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 10px 20px; font-size: 0.9em;">
+                    💰 +100 Moedas
+                </button>
+                <button onclick="devAddSeeds()" style="background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); padding: 10px 20px; font-size: 0.9em;">
+                    🌱 +10 Sementes
+                </button>
+                <button onclick="devInstantGrow()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 10px 20px; font-size: 0.9em;">
+                    ⚡ Crescer Instantâneo
+                </button>
+                <button onclick="devResetGame()" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); padding: 10px 20px; font-size: 0.9em;">
+                    🔄 Resetar Jogo
+                </button>
+            </div>
+
+            <div style="margin-top: 15px;">
+                <label style="color: #5a3e82; font-weight: bold; display: block; margin-bottom: 10px;">
+                    Pular para Fase:
+                </label>
+                <select id="phase-selector" onchange="devJumpToPhase()" style="padding: 10px; border-radius: 15px; border: 2px solid #667eea; font-size: 1em; width: 100%; max-width: 300px; cursor: pointer;">
+                    <option value="1">Fase 1 - Jardineira Iniciante</option>
+                    <option value="2">Fase 2 - Jardineira Habilidosa</option>
+                    <option value="3">Fase 3 - Jardineira Expert</option>
+                    <option value="4">Fase 4 - Jardineira Mestra</option>
+                    <option value="5">Fase 5 - Rainha do Jardim</option>
+                    <option value="6">Fase 6 - Deusa da Natureza</option>
+                    <option value="7">Fase 7 - Guardião das Plantas</option>
+                    <option value="8">Fase 8 - Sábia do Verde</option>
+                    <option value="9">Fase 9 - Mestre da Flora</option>
+                    <option value="10">Fase 10 - Rainha Suprema do Jardim</option>
+                    <option value="11">Fase 11 - Deusa Eterna da Natureza</option>
+                    <option value="12">Fase 12 - Guardião Imortal das Plantas</option>
+                    <option value="13">Fase 13 - Sábia Ancestral do Verde</option>
+                    <option value="14">Fase 14 - Mestre Cósmico da Flora</option>
+                    <option value="15">Fase 15 - Rainha Divina do Jardim</option>
+                </select>
+            </div>
         </div>
     </div>
 
@@ -501,7 +547,17 @@
             { level: 2, name: 'Jardineira Habilidosa', goal: 8, reward: 20 },
             { level: 3, name: 'Jardineira Expert', goal: 15, reward: 30 },
             { level: 4, name: 'Jardineira Mestra', goal: 25, reward: 50 },
-            { level: 5, name: 'Rainha do Jardim', goal: 40, reward: 100 }
+            { level: 5, name: 'Rainha do Jardim', goal: 40, reward: 100 },
+            { level: 6, name: 'Deusa da Natureza', goal: 60, reward: 200 },
+            { level: 7, name: 'Guardião das Plantas', goal: 85, reward: 300 },
+            { level: 8, name: 'Sábia do Verde', goal: 115, reward: 500 },
+            { level: 9, name: 'Mestre da Flora', goal: 150, reward: 800 },
+            { level: 10, name: 'Rainha Suprema do Jardim', goal: 200, reward: 1000 },
+            { level: 11, name: 'Deusa Eterna da Natureza', goal: 300, reward: 1500 },
+            { level: 12, name: 'Guardião Imortal das Plantas', goal: 450, reward: 2000 },
+            { level: 13, name: 'Sábia Ancestral do Verde', goal: 600, reward: 3000 },
+            { level: 14, name: 'Mestre Cósmico da Flora', goal: 800, reward: 5000 },
+            { level: 15, name: 'Rainha Divina do Jardim', goal: 1000, reward: 10000 },
         ];
 
         // Perguntas educativas expandidas
@@ -791,5 +847,86 @@
             console.log(`🔊 Som: ${type}`);
         }
 
-</script>
+        // ============================================
+        // FUNÇÕES DE DESENVOLVEDOR
+        // ============================================
+        function toggleDevPanel() {
+            const panel = document.getElementById('dev-panel');
+            if (panel.style.display === 'none') {
+                panel.style.display = 'block';
+            } else {
+                panel.style.display = 'none';
+            }
+        }
+
+        function devAddCoins() {
+            coins += 100;
+            renderGarden();
+            showMessage('💰 +100 moedas adicionadas!', 'success');
+        }
+
+        function devAddSeeds() {
+            seeds += 10;
+            renderGarden();
+            showMessage('🌱 +10 sementes adicionadas!', 'success');
+        }
+
+        function devInstantGrow() {
+            plots.forEach(plot => {
+                if (plot.state === 'planted' || plot.state === 'growing') {
+                    plot.state = 'ready';
+                    plot.timer = 100;
+                }
+            });
+            renderGarden();
+            showMessage('⚡ Todas as plantas cresceram instantaneamente!', 'success');
+        }
+
+        function devJumpToPhase() {
+            const selector = document.getElementById('phase-selector');
+            const targetPhase = parseInt(selector.value);
+            
+            currentPhase = targetPhase;
+            
+            // Ajustar colheitas para estar perto do objetivo da fase anterior
+            if (targetPhase > 1) {
+                const previousPhase = phases[targetPhase - 2];
+                totalHarvests = previousPhase.goal;
+            } else {
+                totalHarvests = 0;
+            }
+            
+            // Dar recursos apropriados para a fase
+            coins = 50 + (targetPhase * 20);
+            seeds = 5;
+            points = totalHarvests * 10;
+            
+            renderGarden();
+            showMessage(`🚀 Pulou para Fase ${targetPhase}!`, 'success');
+        }
+
+        function devResetGame() {
+            if (confirm('Tem certeza que quer resetar o jogo?')) {
+                coins = 10;
+                seeds = 3;
+                points = 0;
+                currentPhase = 1;
+                totalHarvests = 0;
+                
+                plots.forEach(plot => {
+                    plot.state = 'empty';
+                    plot.timer = 0;
+                });
+                
+                document.getElementById('phase-selector').value = '1';
+                renderGarden();
+                showMessage('🔄 Jogo resetado!', 'success');
+            }
+        }
+
+        // Iniciar o jogo
+        renderGarden();
+        // ============
+    </script>
 </body>
+</html>
