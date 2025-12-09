@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>O Jardim Encantado</title>
+    <style>
+        /* CSS - O Estilo do Jogo */
+        body {
+            font-family: 'Comic Sans MS', 'Arial', sans-serif;
+            background-color: #e0f7fa;
+            text-align: center;
+            user-select: none; /* Impede selecionar texto, parece mais app */
+        }
+
+        h1 { color: #00695c; }
+
+        #game-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        /* O Grid do Jardim */
+        #garden {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3 colunas */
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .plot {
+            height: 120px;
+            background-color: #795548; /* Cor de terra */
+            border: 4px solid #5d4037;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 50px;
+            cursor: pointer;
+            transition: background 0.3s;
+            position: relative;
+        }
+
+        .plot:hover { background-color: #8d6e63; }
+
+        /* Barra de progresso (tempo de crescimento) */
+        .progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 5px;
+            background: #76ff03;
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        /* Área de Controles */
+        #controls {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff9c4;
+            border-radius: 10px;
+        }
+
+        button {
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        button:hover { transform: scale(1.05); }
+
+        /* Modal de Educação (Quiz) */
+        #quiz-modal {
+            display: none; /* Começa escondido */
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+        }
+        .quiz-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="game-container">
+        <h1>🌻 Jardim da Fernanda 🌻</h1>
+        
+        <div>
+            <span>💰 Moedas: <span id="coins">0</span></span> | 
+            <span>🎒 Sementes: <span id="seeds">3</span></span>
+        </div>
+
+        <div id="garden">
+            </div>
+
+        <div id="controls">
+            <p>Clique na terra marrom para plantar!</p>
+            <button onclick="askPolitenessQuestion()">Comprar Sementes (5 moedas)</button>
+        </div>
+    </div>
+
+    <div id="quiz-modal">
+        <div class="quiz-content">
+            <h2 id="question-text">Pergunta...</h2>
+            <div id="answers-area"></div>
+        </div>
+    </div>
+
+    <script>
+        // JAVASCRIPT - A Lógica do Jogo
+
+        // Estado do Jogo
+        let coins = 10;
+        let seeds = 3;
+        const plots = [
+            { id: 0, state: 'empty', timer: 0 },
+            { id: 1, state: 'empty', timer: 0 },
+            { id: 2, state: 'empty', timer: 0 },
+            { id: 3, state: 'empty', timer: 0 },
+            { id: 4, state: 'empty', timer: 0 },
+            { id: 5, state: 'empty', timer: 0 }
+        ];
+
+        // Perguntas Educativas (O segredo do projeto!)
+        const questions = [
+            { q: "Se você quer um copo d'água, o que você diz?", a: ["Me dá água!", "Quero água agora", "Por favor, me dá água?"], correct: 2 },
+            { q: "Quando papai está trabalhando concentrado...", a: ["Eu grito bem alto", "Eu brinco em silêncio", "Eu bato na porta forte"], correct: 1 },
+            { q: "Se você ganhou um presente que não gostou muito...", a: ["Diz 'obrigada' mesmo assim", "Diz 'que feio'", "Joga no chão"], correct: 0 },
+            { q: "Se alguém está na sua frente e voçê quer passar, como se diz?", a: ["Sai da frente", "Sai agora", "Com licença"], correct: 2}
+        ];
+        // Inicialização
+        function renderGarden() {
+            const gardenDiv = document.getElementById('garden');
+            gardenDiv.innerHTML = ''; // Limpa tudo para redesenhar
+
+            plots.forEach(plot => {
+                const div = document.createElement('div');
+                div.className = 'plot';
+                div.onclick = () => handlePlotClick(plot.id);
+
+                // Desenha o emoji baseado no estado
+                let content = '';
+                if (plot.state === 'empty') content = ''; 
+                else if (plot.state === 'planted') content = '🌱';
+                else if (plot.state === 'growing') content = '🌿';
+                else if (plot.state === 'ready') content = '🌻';
+
+                div.innerHTML = content + `<div class="progress-bar" style="width: ${plot.timer}%"></div>`;
+                gardenDiv.appendChild(div);
+            });
+
+            document.getElementById('coins').innerText = coins;
+            document.getElementById('seeds').innerText = seeds;
+        }
+
+        // Lógica de Clicar na Terra
+        function handlePlotClick(id) {
+            const plot = plots[id];
+
+            if (plot.state === 'empty') {
+                if (seeds > 0) {
+                    seeds--;
+                    plot.state = 'planted';
+                    plot.timer = 0;
+                    renderGarden();
+                } else {
+                    alert("Você precisa comprar mais sementes!");
+                }
+            } else if (plot.state === 'ready') {
+                // Colheita
+                coins += 5; // Ganha dinheiro
+                plot.state = 'empty';
+                plot.timer = 0;
+                renderGarden();
+                // Som de sucesso poderia entrar aqui
+            }
+        }
+
+        // Loop do Tempo (Roda a cada 1 segundo)
+        setInterval(() => {
+            let changed = false;
+            plots.forEach(plot => {
+                if (plot.state === 'planted' || plot.state === 'growing') {
+                    plot.timer += 15; // Cresce 20% a cada segundo (rápido para teste)
+                    
+                    if (plot.timer >= 50 && plot.state === 'planted') {
+                        plot.state = 'growing';
+                    }
+                    if (plot.timer >= 100) {
+                        plot.state = 'ready';
+                    }
+                    changed = true;
+                }
+            });
+            if (changed) renderGarden();
+        }, 1000);
+
+        // Sistema de Quiz para comprar sementes
+        function askPolitenessQuestion() {
+            if (coins < 5) {
+                alert("Você precisa de 5 moedas!");
+                return;
+            }
+
+            const modal = document.getElementById('quiz-modal');
+            const questionText = document.getElementById('question-text');
+            const answersArea = document.getElementById('answers-area');
+            
+            // Sorteia uma pergunta
+            const randomQ = questions[Math.floor(Math.random() * questions.length)];
+            
+            questionText.innerText = randomQ.q;
+            answersArea.innerHTML = ''; // Limpa botões antigos
+
+            randomQ.a.forEach((answer, index) => {
+                const btn = document.createElement('button');
+                btn.innerText = answer;
+                btn.style.display = "block";
+                btn.style.width = "100%";
+                btn.onclick = () => {
+                    if (index === randomQ.correct) {
+                        alert("Muito bem! Que menina educada!");
+                        coins -= 5;
+                        seeds += 2; // Ganha 2 sementes
+                        renderGarden();
+                    } else {
+                        alert("Ops, essa não é a atitude correta. Tente de novo!");
+                    }
+                    modal.style.display = 'none';
+                };
+                answersArea.appendChild(btn);
+            });
+
+            modal.style.display = 'flex';
+        }
+
+        // Inicia o jogo
+        renderGarden();
+
+    </script>
+</body>
+</html>
