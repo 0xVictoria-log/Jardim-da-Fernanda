@@ -44,6 +44,11 @@
             100% { filter: hue-rotate(360deg); }
         }
 
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -70,13 +75,74 @@
         }
 
         #game-container {
-            max-width: 750px;
+            max-width: 900px;
             margin: 0 auto;
             background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
             padding: 30px;
             border-radius: 30px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             animation: slideIn 0.6s ease-out;
+        }
+
+        /* Abas de Navegação */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .tab-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102,126,234,0.5);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            box-shadow: 0 8px 25px rgba(245,87,108,0.6);
+        }
+
+        .tab-button .notification-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #ff4757;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8em;
+            font-weight: bold;
+            animation: pulse 1s infinite;
+        }
+
+        /* Seções */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: slideIn 0.4s ease-out;
         }
 
         /* Status Bar */
@@ -95,7 +161,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 1.4em;
+            font-size: 1.2em;
             font-weight: bold;
             color: #5a3e82;
             margin: 5px;
@@ -109,9 +175,9 @@
         .stat-number {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            padding: 8px 18px;
+            padding: 6px 15px;
             border-radius: 20px;
-            min-width: 40px;
+            min-width: 35px;
             box-shadow: 0 4px 12px rgba(102,126,234,0.4);
         }
 
@@ -121,7 +187,7 @@
             color: white;
             padding: 15px 30px;
             border-radius: 25px;
-            font-size: 1.3em;
+            font-size: 1.2em;
             font-weight: bold;
             margin-bottom: 20px;
             box-shadow: 0 8px 20px rgba(245,87,108,0.4);
@@ -236,6 +302,155 @@
             100% { background-position: -200% 0; }
         }
 
+        /* Armazém */
+        .storage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 15px;
+            padding: 25px;
+            background: rgba(255,255,255,0.35);
+            border-radius: 25px;
+            margin: 20px 0;
+        }
+
+        .storage-item {
+            background: white;
+            padding: 15px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .storage-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .storage-item-emoji {
+            font-size: 3em;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .storage-item-count {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #5a3e82;
+        }
+
+        .storage-item-name {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Cozinha */
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 25px;
+            background: rgba(255,255,255,0.35);
+            border-radius: 25px;
+            margin: 20px 0;
+        }
+
+        .recipe-card {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        }
+
+        .recipe-card.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .recipe-emoji {
+            font-size: 4em;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .recipe-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #5a3e82;
+            margin-bottom: 10px;
+        }
+
+        .recipe-ingredients {
+            font-size: 0.9em;
+            color: #666;
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        .recipe-reward {
+            background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+            color: #2d3561;
+            padding: 8px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        /* Mercado */
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            padding: 25px;
+            background: rgba(255,255,255,0.35);
+            border-radius: 25px;
+            margin: 20px 0;
+        }
+
+        .market-item {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .market-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+        }
+
+        .market-item-emoji {
+            font-size: 3.5em;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .market-item-name {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #5a3e82;
+            margin-bottom: 8px;
+        }
+
+        .market-item-price {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 15px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
         /* Controles */
         #controls {
             margin-top: 25px;
@@ -283,8 +498,8 @@
             opacity: 0.6;
         }
 
-        /* Modal de Quiz */
-        #quiz-modal {
+        /* Modal */
+        .modal {
             display: none;
             position: fixed;
             top: 0;
@@ -303,17 +518,19 @@
             to { opacity: 1; }
         }
 
-        .quiz-content {
+        .modal-content {
             background: linear-gradient(135deg, #ffffff 0%, #ffecd2 100%);
             padding: 40px;
             border-radius: 30px;
             max-width: 500px;
             width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             animation: slideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         }
 
-        .quiz-content h2 {
+        .modal-content h2 {
             color: #5a3e82;
             font-size: 1.5em;
             margin-bottom: 25px;
@@ -341,7 +558,7 @@
             background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
         }
 
-        /* Mensagem de Sucesso */
+        /* Overlay de Sucesso */
         #success-overlay {
             display: none;
             position: fixed;
@@ -377,6 +594,13 @@
             font-weight: bold;
         }
 
+        .close-modal {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            padding: 12px 25px;
+            font-size: 1em;
+            margin-top: 20px;
+        }
+
         /* Responsive */
         @media (max-width: 600px) {
             h1 { font-size: 2em; }
@@ -389,10 +613,16 @@
                 height: 120px;
                 font-size: 50px;
             }
-            .stat-item { font-size: 1.1em; }
+            .stat-item { font-size: 1em; }
             button { 
                 padding: 12px 25px;
-                font-size: 1em;
+                font-size: 0.9em;
+            }
+            .storage-grid {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            }
+            .recipe-grid, .market-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             }
         }
     </style>
@@ -424,74 +654,129 @@
             <span id="phase-text">🌟 Fase 1: Jardineira Iniciante 🌟</span>
         </div>
 
+        <!-- Abas de Navegação -->
+        <div class="tabs">
+            <button class="tab-button active" onclick="switchTab('garden')">
+                🌱 Jardim
+            </button>
+            <button class="tab-button" onclick="switchTab('storage')">
+                🏠 Armazém
+                <span class="notification-badge" id="storage-badge" style="display: none;">0</span>
+            </button>
+            <button class="tab-button" onclick="switchTab('kitchen')">
+                👩‍🍳 Cozinha
+            </button>
+            <button class="tab-button" onclick="switchTab('market')">
+                🛒 Mercado
+            </button>
+        </div>
+
         <div id="hint-message">
             👇 Clique na terra marrom para plantar! 👇
         </div>
 
-        <div id="garden"></div>
+        <!-- ABA JARDIM -->
+        <div id="garden-tab" class="tab-content active">
+            <div id="garden"></div>
 
-        <div id="controls">
-            <p id="instruction-text">🌸 Plante sementes e espere crescerem! 🌸</p>
-            <button onclick="buySeeds()" id="buy-btn">
-                🛒 Comprar Sementes (5 moedas)
-            </button>
-            <button onclick="showHelp()" style="background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);">
-                ❓ Como Jogar
-            </button>
-            <button onclick="toggleDevPanel()" style="background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%); font-size: 0.9em;">
-                🔧 Modo DEV
-            </button>
+            <div id="controls">
+                <p id="instruction-text">🌸 Plante sementes e espere crescerem! 🌸</p>
+                <button onclick="buySeeds()" id="buy-btn">
+                    🛒 Comprar Sementes (5 moedas)
+                </button>
+                <button onclick="showHelp()" style="background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);">
+                    ❓ Como Jogar
+                </button>
+                <button onclick="toggleDevPanel()" style="background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%); font-size: 0.9em;">
+                    🔧 Modo DEV
+                </button>
+            </div>
+
+            <!-- Painel de Desenvolvedor -->
+            <div id="dev-panel" style="display: none; margin-top: 20px; padding: 20px; background: rgba(255,255,255,0.95); border-radius: 25px; box-shadow: 0 8px 20px rgba(0,0,0,0.2);">
+                <h3 style="color: #ff6b6b; margin-bottom: 15px;">🔧 PAINEL DE DESENVOLVEDOR</h3>
+                
+                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
+                    <button onclick="devAddCoins()" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 10px 20px; font-size: 0.9em;">
+                        💰 +100 Moedas
+                    </button>
+                    <button onclick="devAddSeeds()" style="background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); padding: 10px 20px; font-size: 0.9em;">
+                        🌱 +10 Sementes
+                    </button>
+                    <button onclick="devInstantGrow()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 10px 20px; font-size: 0.9em;">
+                        ⚡ Crescer Instantâneo
+                    </button>
+                    <button onclick="devResetGame()" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); padding: 10px 20px; font-size: 0.9em;">
+                        🔄 Resetar Jogo
+                    </button>
+                </div>
+
+                <div style="margin-top: 15px;">
+                    <label style="color: #5a3e82; font-weight: bold; display: block; margin-bottom: 10px;">
+                        Pular para Fase:
+                    </label>
+                    <select id="phase-selector" onchange="devJumpToPhase()" style="padding: 10px; border-radius: 15px; border: 2px solid #667eea; font-size: 1em; width: 100%; max-width: 300px; cursor: pointer;">
+                        <option value="1">Fase 1 - Jardineira Iniciante</option>
+                        <option value="2">Fase 2 - Jardineira Habilidosa</option>
+                        <option value="3">Fase 3 - Jardineira Expert</option>
+                        <option value="4">Fase 4 - Jardineira Mestra</option>
+                        <option value="5">Fase 5 - Rainha do Jardim</option>
+                        <option value="6">Fase 6 - Deusa da Natureza</option>
+                        <option value="7">Fase 7 - Guardião das Plantas</option>
+                        <option value="8">Fase 8 - Sábia do Verde</option>
+                        <option value="9">Fase 9 - Mestre da Flora</option>
+                        <option value="10">Fase 10 - Rainha Suprema do Jardim</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
-        <!-- Painel de Desenvolvedor -->
-        <div id="dev-panel" style="display: none; margin-top: 20px; padding: 20px; background: rgba(255,255,255,0.95); border-radius: 25px; box-shadow: 0 8px 20px rgba(0,0,0,0.2);">
-            <h3 style="color: #ff6b6b; margin-bottom: 15px;">🔧 PAINEL DE DESENVOLVEDOR</h3>
-            
-            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px;">
-                <button onclick="devAddCoins()" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 10px 20px; font-size: 0.9em;">
-                    💰 +100 Moedas
-                </button>
-                <button onclick="devAddSeeds()" style="background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); padding: 10px 20px; font-size: 0.9em;">
-                    🌱 +10 Sementes
-                </button>
-                <button onclick="devInstantGrow()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 10px 20px; font-size: 0.9em;">
-                    ⚡ Crescer Instantâneo
-                </button>
-                <button onclick="devResetGame()" style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); padding: 10px 20px; font-size: 0.9em;">
-                    🔄 Resetar Jogo
-                </button>
+        <!-- ABA ARMAZÉM -->
+        <div id="storage-tab" class="tab-content">
+            <div style="background: rgba(255,255,255,0.95); padding: 20px; border-radius: 25px; margin-bottom: 20px;">
+                <h2 style="color: #5a3e82; margin-bottom: 10px;">🏠 Seu Armazém</h2>
+                <p style="color: #666;">Aqui ficam todos os alimentos que você colheu!</p>
             </div>
+            <div class="storage-grid" id="storage-grid">
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #999;">
+                    Seu armazém está vazio. Colha plantas no jardim!
+                </div>
+            </div>
+        </div>
 
-            <div style="margin-top: 15px;">
-                <label style="color: #5a3e82; font-weight: bold; display: block; margin-bottom: 10px;">
-                    Pular para Fase:
-                </label>
-                <select id="phase-selector" onchange="devJumpToPhase()" style="padding: 10px; border-radius: 15px; border: 2px solid #667eea; font-size: 1em; width: 100%; max-width: 300px; cursor: pointer;">
-                    <option value="1">Fase 1 - Jardineira Iniciante</option>
-                    <option value="2">Fase 2 - Jardineira Habilidosa</option>
-                    <option value="3">Fase 3 - Jardineira Expert</option>
-                    <option value="4">Fase 4 - Jardineira Mestra</option>
-                    <option value="5">Fase 5 - Rainha do Jardim</option>
-                    <option value="6">Fase 6 - Deusa da Natureza</option>
-                    <option value="7">Fase 7 - Guardião das Plantas</option>
-                    <option value="8">Fase 8 - Sábia do Verde</option>
-                    <option value="9">Fase 9 - Mestre da Flora</option>
-                    <option value="10">Fase 10 - Rainha Suprema do Jardim</option>
-                    <option value="11">Fase 11 - Deusa Eterna da Natureza</option>
-                    <option value="12">Fase 12 - Guardião Imortal das Plantas</option>
-                    <option value="13">Fase 13 - Sábia Ancestral do Verde</option>
-                    <option value="14">Fase 14 - Mestre Cósmico da Flora</option>
-                    <option value="15">Fase 15 - Rainha Divina do Jardim</option>
-                </select>
+        <!-- ABA COZINHA -->
+        <div id="kitchen-tab" class="tab-content">
+            <div style="background: rgba(255,255,255,0.95); padding: 20px; border-radius: 25px; margin-bottom: 20px;">
+                <h2 style="color: #5a3e82; margin-bottom: 10px;">👩‍🍳 Cozinha Saudável</h2>
+                <p style="color: #666;">Prepare receitas deliciosas e saudáveis com seus ingredientes!</p>
             </div>
+            <div class="recipe-grid" id="recipe-grid"></div>
+        </div>
+
+        <!-- ABA MERCADO -->
+        <div id="market-tab" class="tab-content">
+            <div style="background: rgba(255,255,255,0.95); padding: 20px; border-radius: 25px; margin-bottom: 20px;">
+                <h2 style="color: #5a3e82; margin-bottom: 10px;">🛒 Mercado</h2>
+                <p style="color: #666;">Compre ingredientes especiais que você não pode plantar!</p>
+            </div>
+            <div class="market-grid" id="market-grid"></div>
         </div>
     </div>
 
     <!-- Modal de Quiz -->
-    <div id="quiz-modal">
-        <div class="quiz-content">
+    <div id="quiz-modal" class="modal">
+        <div class="modal-content">
             <h2 id="question-text">Pergunta...</h2>
             <div id="answers-area"></div>
+        </div>
+    </div>
+
+    <!-- Modal de Receita -->
+    <div id="recipe-modal" class="modal">
+        <div class="modal-content">
+            <h2 id="recipe-modal-title">Receita</h2>
+            <div id="recipe-modal-content"></div>
+            <button class="close-modal" onclick="closeRecipeModal()">Fechar</button>
         </div>
     </div>
 
@@ -512,34 +797,49 @@
         let points = 0;
         let currentPhase = 1;
         let totalHarvests = 0;
+        let currentTab = 'garden';
+
+        // Armazém de ingredientes
+        const storage = {
+            // Flores
+            '🌻': 0, '🌹': 0, '🌷': 0, '🌺': 0,
+            // Legumes
+            '🥕': 0, '🍆': 0, '🍅': 0, '🥦': 0, '🌽': 0,
+            // Frutas
+            '🍉': 0, '🍓': 0, '🍍': 0, '🥭': 0, '🍇': 0, '🍒': 0,
+            // Ingredientes do mercado
+            '🫒': 0, // Azeite
+            '🧂': 0, // Sal
+            '🧄': 0, // Alho
+            '🧅': 0, // Cebola
+            '🌿': 0, // Ervas
+            '🍋': 0, // Limão
+            '🥛': 0, // Leite
+            '🧈': 0, // Manteiga
+        };
 
         const plots = [
-            { id: 0, state: 'empty', timer: 0, plant: '🌱' },
-            { id: 1, state: 'empty', timer: 0, plant: '🌱' },
-            { id: 2, state: 'empty', timer: 0, plant: '🌱' },
-            { id: 3, state: 'empty', timer: 0, plant: '🌱' },
-            { id: 4, state: 'empty', timer: 0, plant: '🌱' },
-            { id: 5, state: 'empty', timer: 0, plant: '🌱' }
+            { id: 0, state: 'empty', timer: 0 },
+            { id: 1, state: 'empty', timer: 0 },
+            { id: 2, state: 'empty', timer: 0 },
+            { id: 3, state: 'empty', timer: 0 },
+            { id: 4, state: 'empty', timer: 0 },
+            { id: 5, state: 'empty', timer: 0 }
         ];
 
-        // Tipos de plantas, legumes, verduras e frutas que podem crescer
+        // Tipos de plantas
         const plantTypes = [
-            { seed: '🌱', growing: '🌿', ready: '🌻', coins: 5, time: 100 },
-            { seed: '🌱', growing: '🌾', ready: '🌹', coins: 8, time: 150 },
-            { seed: '🌱', growing: '🍀', ready: '🌷', coins: 12, time: 200 },
-            { seed: '🌱', growing: '🌵', ready: '🌺', coins: 15, time: 250 },
-            { seed: '🌱', growing: '🥕', ready: '🥕', coins: 20, time: 300 },
-            { seed: '🌱', growing: '🍆', ready: '🍆', coins: 25, time: 350 },
-            { seed: '🌱', growing: '🍅', ready: '🍅', coins: 30, time: 400 },
-            { seed: '🌱', growing: '🥦', ready: '🥦', coins: 35, time: 450 },
-            { seed: '🌱', growing: '🌽', ready: '🌽', coins: 40, time: 500 },
-            { seed:  '🌱', growing: '🍉', ready: '🍉', coins: 50, time: 600 },
-            { seed:  '🌱', growing: '🍓', ready: '🍓', coins: 60, time: 700 },
-            { seed:  '🌱', growing: '🍍', ready: '🍍', coins: 70, time: 800 },
-            { seed:  '🌱', growing: '🥭', ready: '🥭', coins: 80, time: 900 },
-            { seed:  '🌱', growing: '🍇', ready: '🍇', coins: 90, time: 1000 },
-            { seed:  '🌱', growing: '🍒', ready: '🍒', coins: 100, time:1100 },       
-    ];
+            { seed: '🌱', growing: '🌿', ready: '🌻', coins: 5, time: 100, name: 'Girassol' },
+            { seed: '🌱', growing: '🌾', ready: '🌹', coins: 8, time: 150, name: 'Rosa' },
+            { seed: '🌱', growing: '🍀', ready: '🌷', coins: 12, time: 200, name: 'Tulipa' },
+            { seed: '🌱', growing: '🌵', ready: '🌺', coins: 15, time: 250, name: 'Hibisco' },
+            { seed: '🌱', growing: '🥕', ready: '🥕', coins: 20, time: 300, name: 'Cenoura' },
+            { seed: '🌱', growing: '🍆', ready: '🍆', coins: 25, time: 350, name: 'Berinjela' },
+            { seed: '🌱', growing: '🍅', ready: '🍅', coins: 30, time: 400, name: 'Tomate' },
+            { seed: '🌱', growing: '🥦', ready: '🥦', coins: 35, time: 450, name: 'Brócolis' },
+            { seed: '🌱', growing: '🌽', ready: '🌽', coins: 40, time: 500, name: 'Milho' },
+            { seed: '🌱', growing: '🍉', ready: '🍉', coins: 50, time: 600, name: 'Melancia' }
+        ];
 
         // Fases do jogo
         const phases = [
@@ -552,15 +852,82 @@
             { level: 7, name: 'Guardião das Plantas', goal: 85, reward: 300 },
             { level: 8, name: 'Sábia do Verde', goal: 115, reward: 500 },
             { level: 9, name: 'Mestre da Flora', goal: 150, reward: 800 },
-            { level: 10, name: 'Rainha Suprema do Jardim', goal: 200, reward: 1000 },
-            { level: 11, name: 'Deusa Eterna da Natureza', goal: 300, reward: 1500 },
-            { level: 12, name: 'Guardião Imortal das Plantas', goal: 450, reward: 2000 },
-            { level: 13, name: 'Sábia Ancestral do Verde', goal: 600, reward: 3000 },
-            { level: 14, name: 'Mestre Cósmico da Flora', goal: 800, reward: 5000 },
-            { level: 15, name: 'Rainha Divina do Jardim', goal: 1000, reward: 10000 },
+            { level: 10, name: 'Rainha Suprema', goal: 200, reward: 1000 }
         ];
 
-        // Perguntas educativas expandidas
+        // Receitas
+        const recipes = [
+            {
+                emoji: '🥗',
+                name: 'Salada de Girassol',
+                ingredients: { '🌻': 2, '🥕': 1, '🫒': 1 },
+                reward: { coins: 30, points: 50 },
+                minPhase: 1
+            },
+            {
+                emoji: '🍝',
+                name: 'Macarrão com Tomate',
+                ingredients: { '🍅': 3, '🧄': 1, '🫒': 1, '🌿': 1 },
+                reward: { coins: 50, points: 80 },
+                minPhase: 3
+            },
+            {
+                emoji: '🍲',
+                name: 'Sopa de Legumes',
+                ingredients: { '🥕': 2, '🥦': 2, '🧅': 1, '🧂': 1 },
+                reward: { coins: 60, points: 100 },
+                minPhase: 4
+            },
+            {
+                emoji: '🥘',
+                name: 'Ratatouille',
+                ingredients: { '🍆': 2, '🍅': 2, '🧄': 1, '🫒': 2 },
+                reward: { coins: 80, points: 120 },
+                minPhase: 5
+            },
+            {
+                emoji: '🍰',
+                name: 'Bolo de Cenoura',
+                ingredients: { '🥕': 3, '🥛': 2, '🧈': 1 },
+                reward: { coins: 70, points: 110 },
+                minPhase: 4
+            },
+            {
+                emoji: '🧃',
+                name: 'Suco Tropical',
+                ingredients: { '🍉': 1, '🍓': 1, '🍋': 1 },
+                reward: { coins: 90, points: 150 },
+                minPhase: 6
+            },
+            {
+                emoji: '🥙',
+                name: 'Wrap Vegetariano',
+                ingredients: { '🥦': 2, '🍅': 2, '🥕': 1, '🌿': 1 },
+                reward: { coins: 100, points: 160 },
+                minPhase: 7
+            },
+            {
+                emoji: '🍹',
+                name: 'Smoothie de Frutas',
+                ingredients: { '🍓': 2, '🍇': 2, '🥭': 1, '🥛': 1 },
+                reward: { coins: 120, points: 200 },
+                minPhase: 8
+            }
+        ];
+
+        // Itens do mercado
+        const marketItems = [
+            { emoji: '🫒', name: 'Azeite', price: 15 },
+            { emoji: '🧂', name: 'Sal', price: 10 },
+            { emoji: '🧄', name: 'Alho', price: 12 },
+            { emoji: '🧅', name: 'Cebola', price: 12 },
+            { emoji: '🌿', name: 'Ervas', price: 15 },
+            { emoji: '🍋', name: 'Limão', price: 18 },
+            { emoji: '🥛', name: 'Leite', price: 20 },
+            { emoji: '🧈', name: 'Manteiga', price: 25 }
+        ];
+
+        // Perguntas educativas
         const questions = [
             { 
                 q: "Se você quer um copo d'água, o que você diz?", 
@@ -610,7 +977,60 @@
                 correct: 0,
                 tip: "Agradecer sempre!"
             }
+            { 
+                q: "Se você quer algo que está longe, você deve:", 
+                a: ["Pedir para alguém pegar", "Tentar alcançar sozinha", "Gritar por ajuda"], 
+                correct: 0,
+                tip: "Pedir ajuda é sempre uma boa ideia!"
+            },
+            { 
+                q: "Quando você termina de brincar, você deve:", 
+                a: ["Deixar tudo bagunçado", "Guardar os brinquedos", "Sair correndo"], 
+                correct: 1,
+                tip: "Guardar os brinquedos mostra responsabilidade!"
+            }
+            { 
+                q: "Se você quer a atenção de alguém, você deve:", 
+                a: ["Chamar bem alto", "Puxar o braço da pessoa", "Dizer 'com licença'"], 
+                correct: 2,
+                tip: "Usar 'com licença' é sempre educado!"
+            }
+            { 
+                q: "Quando você está em um lugar público, você deve:", 
+                a: ["Falar alto", "Correr por todo lado", "Falar baixo e andar com cuidado"], 
+                correct: 2,
+                tip: "Respeitar o espaço dos outros é importante!"
+            }
+            { 
+                q: "Quem é a mulher mais incrível do mundo?:", 
+                a: ["Mulher Maravilha", "Capitã Marvel", "Mamãe da Fernanda"], 
+                correct: 2,
+                tip: "A mamãe é sempre a melhor!"
+            }
         ];
+
+        // ============================================
+        // FUNÇÕES DE NAVEGAÇÃO
+        // ============================================
+        function switchTab(tabName) {
+            // Esconder todas as abas
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Mostrar aba selecionada
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+            event.target.classList.add('active');
+            currentTab = tabName;
+
+            // Renderizar conteúdo da aba
+            if (tabName === 'storage') renderStorage();
+            if (tabName === 'kitchen') renderKitchen();
+            if (tabName === 'market') renderMarket();
+        }
 
         // ============================================
         // FUNÇÕES DE RENDERIZAÇÃO
@@ -652,6 +1072,95 @@
             });
 
             updateStats();
+            updateStorageBadge();
+        }
+
+        function renderStorage() {
+            const grid = document.getElementById('storage-grid');
+            grid.innerHTML = '';
+
+            let hasItems = false;
+            const itemNames = {
+                '🌻': 'Girassol', '🌹': 'Rosa', '🌷': 'Tulipa', '🌺': 'Hibisco',
+                '🥕': 'Cenoura', '🍆': 'Berinjela', '🍅': 'Tomate', '🥦': 'Brócolis', '🌽': 'Milho',
+                '🍉': 'Melancia', '🍓': 'Morango', '🍍': 'Abacaxi', '🥭': 'Manga', '🍇': 'Uva', '🍒': 'Cereja',
+                '🫒': 'Azeite', '🧂': 'Sal', '🧄': 'Alho', '🧅': 'Cebola', '🌿': 'Ervas', 
+                '🍋': 'Limão', '🥛': 'Leite', '🧈': 'Manteiga'
+            };
+
+            for (let item in storage) {
+                if (storage[item] > 0) {
+                    hasItems = true;
+                    const div = document.createElement('div');
+                    div.className = 'storage-item';
+                    div.innerHTML = `
+                        <span class="storage-item-emoji">${item}</span>
+                        <div class="storage-item-count">x${storage[item]}</div>
+                        <div class="storage-item-name">${itemNames[item] || ''}</div>
+                    `;
+                    grid.appendChild(div);
+                }
+            }
+
+            if (!hasItems) {
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #999;">Seu armazém está vazio. Colha plantas no jardim ou compre no mercado!</div>';
+            }
+        }
+
+        function renderKitchen() {
+            const grid = document.getElementById('recipe-grid');
+            grid.innerHTML = '';
+
+            recipes.forEach(recipe => {
+                const canCook = currentPhase >= recipe.minPhase;
+                const hasIngredients = checkIngredients(recipe.ingredients);
+                
+                const div = document.createElement('div');
+                div.className = `recipe-card ${!canCook ? 'locked' : ''}`;
+                if (canCook && hasIngredients) {
+                    div.onclick = () => cookRecipe(recipe);
+                }
+
+                let ingredientsHtml = '<div class="recipe-ingredients">';
+                for (let ing in recipe.ingredients) {
+                    const has = storage[ing] || 0;
+                    const needs = recipe.ingredients[ing];
+                    const color = has >= needs ? '#00a86b' : '#ff6b6b';
+                    ingredientsHtml += `<div style="color: ${color}">${ing} x${needs} (${has})</div>`;
+                }
+                ingredientsHtml += '</div>';
+
+                div.innerHTML = `
+                    <span class="recipe-emoji">${recipe.emoji}</span>
+                    <div class="recipe-name">${recipe.name}</div>
+                    ${ingredientsHtml}
+                    <div class="recipe-reward">💰 ${recipe.reward.coins} | 🏆 ${recipe.reward.points}</div>
+                    ${!canCook ? '<div style="color: #ff6b6b; margin-top: 10px;">🔒 Fase ' + recipe.minPhase + '</div>' : ''}
+                    ${canCook && !hasIngredients ? '<div style="color: #ff9a9e; margin-top: 10px;">Faltam ingredientes</div>' : ''}
+                    ${canCook && hasIngredients ? '<div style="color: #00a86b; margin-top: 10px;">✨ Pronto para cozinhar!</div>' : ''}
+                `;
+                
+                grid.appendChild(div);
+            });
+        }
+
+        function renderMarket() {
+            const grid = document.getElementById('market-grid');
+            grid.innerHTML = '';
+
+            marketItems.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'market-item';
+                div.onclick = () => buyMarketItem(item);
+
+                div.innerHTML = `
+                    <span class="market-item-emoji">${item.emoji}</span>
+                    <div class="market-item-name">${item.name}</div>
+                    <div class="market-item-price">💰 ${item.price}</div>
+                `;
+                
+                grid.appendChild(div);
+            });
         }
 
         function updateStats() {
@@ -665,7 +1174,6 @@
                     `🌟 Fase ${phase.level}: ${phase.name} (${totalHarvests}/${phase.goal}) 🌟`;
             }
 
-            // Atualizar mensagem de dica
             if (seeds === 0) {
                 document.getElementById('hint-message').innerText = 
                     '🎯 Você precisa comprar mais sementes! Responda a pergunta!';
@@ -674,10 +1182,24 @@
                     '⏰ Aguarde suas plantas crescerem...';
             } else if (plots.some(p => p.state === 'ready')) {
                 document.getElementById('hint-message').innerText = 
-                    '✨ Colha suas flores clicando nelas! ✨';
+                    '✨ Colha suas plantas clicando nelas! ✨';
             } else {
                 document.getElementById('hint-message').innerText = 
                     '👇 Clique na terra marrom para plantar! 👇';
+            }
+        }
+
+        function updateStorageBadge() {
+            let total = 0;
+            for (let item in storage) {
+                total += storage[item];
+            }
+            const badge = document.getElementById('storage-badge');
+            if (total > 0) {
+                badge.style.display = 'flex';
+                badge.innerText = total;
+            } else {
+                badge.style.display = 'none';
             }
         }
 
@@ -692,21 +1214,23 @@
                     seeds--;
                     plot.state = 'planted';
                     plot.timer = 0;
-                    playSound('plant');
                     renderGarden();
                 } else {
                     showMessage('🌱 Você precisa comprar mais sementes!', 'warning');
                 }
             } else if (plot.state === 'ready') {
-                // Colheita
                 const plantType = plantTypes[Math.min(currentPhase - 1, plantTypes.length - 1)];
+                
+                // Adicionar ao armazém
+                storage[plantType.ready]++;
+                
                 coins += plantType.coins;
                 points += plantType.coins * 2;
                 totalHarvests++;
                 plot.state = 'empty';
                 plot.timer = 0;
-                playSound('harvest');
-                showSuccess(`+${plantType.coins} moedas! +${plantType.coins * 2} pontos!`);
+                
+                showSuccess(`Colhido! ${plantType.ready} foi para o armazém!`);
                 renderGarden();
                 checkPhaseComplete();
             }
@@ -719,12 +1243,59 @@
                     currentPhase++;
                     coins += phase.reward;
                     seeds += 3;
-                    showMessage(`🎉 Parabéns! Você passou para a Fase ${currentPhase}! +${phase.reward} moedas!`, 'success');
+                    showMessage(`🎉 Parabéns! Fase ${currentPhase} desbloqueada! +${phase.reward} moedas!`, 'success');
                 } else {
-                    showMessage('👑 VOCÊ É A RAINHA DO JARDIM! PARABÉNS! 👑', 'success');
+                    showMessage('👑 VOCÊ É A RAINHA SUPREMA! 👑', 'success');
                 }
                 renderGarden();
             }
+        }
+
+        function checkIngredients(ingredients) {
+            for (let ing in ingredients) {
+                if ((storage[ing] || 0) < ingredients[ing]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function cookRecipe(recipe) {
+            if (!checkIngredients(recipe.ingredients)) {
+                showMessage('❌ Faltam ingredientes!', 'warning');
+                return;
+            }
+
+            // Remover ingredientes
+            for (let ing in recipe.ingredients) {
+                storage[ing] -= recipe.ingredients[ing];
+            }
+
+            // Dar recompensas
+            coins += recipe.reward.coins;
+            points += recipe.reward.points;
+
+            showSuccess(`${recipe.emoji} ${recipe.name} preparado! +${recipe.reward.coins} moedas!`);
+            renderKitchen();
+            renderStorage();
+            updateStorageBadge();
+            updateStats();
+        }
+
+        function buyMarketItem(item) {
+            if (coins < item.price) {
+                showMessage('💰 Moedas insuficientes!', 'warning');
+                return;
+            }
+
+            coins -= item.price;
+            storage[item.emoji]++;
+            
+            showSuccess(`${item.emoji} ${item.name} comprado!`);
+            renderMarket();
+            renderStorage();
+            updateStorageBadge();
+            updateStats();
         }
 
         // ============================================
@@ -736,16 +1307,14 @@
             
             plots.forEach(plot => {
                 if (plot.state === 'planted' || plot.state === 'growing') {
-                    plot.timer += (100 / plantType.time) * 10; // Incremento baseado no tempo da planta
+                    plot.timer += (100 / plantType.time) * 10;
                     
                     if (plot.timer >= 50 && plot.state === 'planted') {
                         plot.state = 'growing';
-                        playSound('grow');
                     }
                     if (plot.timer >= 100) {
                         plot.state = 'ready';
                         plot.timer = 100;
-                        playSound('ready');
                     }
                     changed = true;
                 }
@@ -780,11 +1349,9 @@
                         coins -= 5;
                         seeds += 3;
                         points += 10;
-                        playSound('correct');
                         showMessage(`✅ Muito bem! Que menina educada! 🌟 +3 sementes!`, 'success');
                         renderGarden();
                     } else {
-                        playSound('wrong');
                         showMessage(`❌ ${randomQ.tip} Tente de novo!`, 'warning');
                     }
                     modal.style.display = 'none';
@@ -811,7 +1378,6 @@
 
         function showMessage(message, type) {
             const hint = document.getElementById('hint-message');
-            const originalText = hint.innerText;
             hint.innerText = message;
             
             if (type === 'warning') {
@@ -826,25 +1392,32 @@
             }, 3000);
         }
 
+        function closeRecipeModal() {
+            document.getElementById('recipe-modal').style.display = 'none';
+        }
+
         function showHelp() {
             alert(`🌻 COMO JOGAR O JARDIM MÁGICO 🌻
 
-1️⃣ Clique na terra marrom para plantar sementes
-2️⃣ Espere as plantas crescerem (tem barinha de progresso!)
-3️⃣ Quando a flor estiver pronta e brilhando, clique para colher
-4️⃣ Ganhe moedas e pontos!
-5️⃣ Para comprar mais sementes, responda perguntas sobre educação
-6️⃣ Complete as fases colhendo mais e mais flores!
+🌱 JARDIM:
+- Plante sementes na terra
+- Espere crescerem (veja a barra de progresso)
+- Colha e guarde no armazém
 
-🎯 Objetivo: Seja educada e se torne a Rainha do Jardim!
+🏠 ARMAZÉM:
+- Veja tudo que você colheu
+- Ingredientes ficam guardados aqui
 
-💡 Dica: Plantas mais avançadas dão mais moedas!`);
-        }
+👩‍🍳 COZINHA:
+- Prepare receitas saudáveis
+- Use ingredientes do armazém
+- Ganhe moedas e pontos extras!
 
-        // Sistema de som simulado
-        function playSound(type) {
-            // Aqui você poderia adicionar sons reais
-            console.log(`🔊 Som: ${type}`);
+🛒 MERCADO:
+- Compre ingredientes especiais
+- Azeite, temperos, leite, etc.
+
+💡 Dica: Cozinhar dá mais moedas do que apenas vender!`);
         }
 
         // ============================================
@@ -852,23 +1425,19 @@
         // ============================================
         function toggleDevPanel() {
             const panel = document.getElementById('dev-panel');
-            if (panel.style.display === 'none') {
-                panel.style.display = 'block';
-            } else {
-                panel.style.display = 'none';
-            }
+            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
         }
 
         function devAddCoins() {
             coins += 100;
             renderGarden();
-            showMessage('💰 +100 moedas adicionadas!', 'success');
+            showMessage('💰 +100 moedas!', 'success');
         }
 
         function devAddSeeds() {
             seeds += 10;
             renderGarden();
-            showMessage('🌱 +10 sementes adicionadas!', 'success');
+            showMessage('🌱 +10 sementes!', 'success');
         }
 
         function devInstantGrow() {
@@ -879,7 +1448,7 @@
                 }
             });
             renderGarden();
-            showMessage('⚡ Todas as plantas cresceram instantaneamente!', 'success');
+            showMessage('⚡ Plantas crescidas!', 'success');
         }
 
         function devJumpToPhase() {
@@ -888,7 +1457,6 @@
             
             currentPhase = targetPhase;
             
-            // Ajustar colheitas para estar perto do objetivo da fase anterior
             if (targetPhase > 1) {
                 const previousPhase = phases[targetPhase - 2];
                 totalHarvests = previousPhase.goal;
@@ -896,22 +1464,25 @@
                 totalHarvests = 0;
             }
             
-            // Dar recursos apropriados para a fase
             coins = 50 + (targetPhase * 20);
             seeds = 5;
             points = totalHarvests * 10;
             
             renderGarden();
-            showMessage(`🚀 Pulou para Fase ${targetPhase}!`, 'success');
+            showMessage(`🚀 Fase ${targetPhase}!`, 'success');
         }
 
         function devResetGame() {
-            if (confirm('Tem certeza que quer resetar o jogo?')) {
+            if (confirm('Resetar jogo?')) {
                 coins = 10;
                 seeds = 3;
                 points = 0;
                 currentPhase = 1;
                 totalHarvests = 0;
+                
+                for (let item in storage) {
+                    storage[item] = 0;
+                }
                 
                 plots.forEach(plot => {
                     plot.state = 'empty';
@@ -920,13 +1491,14 @@
                 
                 document.getElementById('phase-selector').value = '1';
                 renderGarden();
+                renderStorage();
+                updateStorageBadge();
                 showMessage('🔄 Jogo resetado!', 'success');
             }
         }
 
         // Iniciar o jogo
         renderGarden();
-        // ============
     </script>
 </body>
-</html>
+</html> 
